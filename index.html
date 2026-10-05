@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" class="notranslate">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>@zpt0</title>
+  <meta name="description" content="&quot;Bad days happen, but they are not the end of the story.&quot;" />
+  <meta name="theme-color" content="#000000" />
+  <meta property="og:title" content="@zpt0 | bio" />
+  <meta property="og:description" content="Bad days happen, but they are not the end of the story." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="./assets/bg-poster.jpg" />
+  <link rel="icon" type="image/png" href="./assets/favicon.png" />
+  <link rel="preload" as="image" href="./assets/bg-poster.jpg" fetchpriority="high" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  />
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </noscript>
+  <link rel="stylesheet" href="./css/base.css?v=7" />
+  <link rel="stylesheet" href="./css/enter.css?v=7" />
+  <link rel="stylesheet" href="./css/card.css?v=7" />
+  <link rel="stylesheet" href="./css/player.css?v=7" />
+  <link rel="stylesheet" href="./css/effects.css?v=7" />
+</head>
+<body>
+  <div id="bg" aria-hidden="true"></div>
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div id="bg-dim" aria-hidden="true"></div>
+
+  <div id="volume" hidden>
+    <svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M24 6v36c-7 0-12.2-9.16-12.2-9.16H6a2 2 0 0 1-2-2V17.01a2 2 0 0 1 2-2h5.8S17 6 24 6Z"/><path fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" d="M32 15a12 12 0 0 1 0 18M34.2 41.2C40.1 37.7 44 31.3 44 24c0-7.2-3.8-13.5-9.5-17"/></svg>
+    <input id="volume-range" type="range" min="0" max="100" value="100" aria-label="Volume" />
+  </div>
+
+  <div id="enter" role="button" tabindex="0" aria-label="Click to enter">
+    <span id="enter-btn" aria-hidden="true">
+      <span id="enter-ring"></span>
+      <svg id="enter-arrow" viewBox="0 0 24 24" width="30" height="30"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></svg>
+    </span>
+    <p id="enter-text">click to enter...</p>
+    <p id="enter-sub" hidden></p>
+  </div>
+
+  <main id="stage">
+    <section id="card">
+      <img id="avatar" alt="profile picture" fetchpriority="high" decoding="async" />
+      <h1 id="name">zpt0</h1>
+      <p id="bio"></p>
+      <p id="location" hidden>
+        <svg viewBox="4 2 16 20" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M12 12q.825 0 1.413-.587T14 10t-.587-1.412T12 8t-1.412.588T10 10t.588 1.413T12 12m0 10q-4.025-3.425-6.012-6.362T4 10.2q0-3.75 2.413-5.975T12 2t5.588 2.225T20 10.2q0 2.5-1.987 5.438T12 22"/></svg>
+        <span id="location-text"></span>
+      </p>
+      <nav id="socials" aria-label="Links"></nav>
+
+      <div id="player" hidden>
+        <img id="p-cover" alt="" loading="lazy" decoding="async" />
+        <div id="p-meta">
+          <p id="p-title">—</p>
+          <div id="p-bar" role="slider" aria-label="Seek" tabindex="0"><div id="p-fill"></div></div>
+        </div>
+        <div id="p-btns">
+          <button id="p-prev" aria-label="Previous track"></button>
+          <button id="p-toggle" aria-label="Play or pause"></button>
+          <button id="p-next" aria-label="Next track"></button>
+        </div>
+      </div>
+    </section>
+
+    <div id="views" hidden>
+      <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M12 9a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5a5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
+      <span id="views-num">0</span>
+    </div>
+  </main>
+
+  <div id="shield" aria-hidden="true">
+    <p>DevTools detected</p>
+    <span>close them to continue</span>
+  </div>
+
+  <audio id="audio" preload="auto"></audio>
+  <noscript><p style="position:fixed;inset:auto 0 0 0;text-align:center;padding:12px">This profile needs JavaScript.</p></noscript>
+  <script type="module" src="./js/main.js?v=7"></script>
+</body>
+</html>

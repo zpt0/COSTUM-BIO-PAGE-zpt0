@@ -1,0 +1,41 @@
+#player {
+  margin: 22px auto 0;
+  max-width: 460px;
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  padding: 10px 12px;
+  text-align: left;
+}
+#p-cover {
+  width: 46px; height: 46px; border-radius: 10px;
+  object-fit: cover; background: rgba(255,255,255,0.2);
+  flex: none;
+}
+#p-cover:not([src]) { visibility: hidden; }
+#p-meta { flex: 1; min-width: 0; }
+#p-title {
+  font-size: 13.5px; font-weight: 550; color: rgba(255,255,255,0.85);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+#p-bar {
+  margin-top: 8px; height: 4px; border-radius: 99px;
+  background: rgba(255,255,255,0.3); cursor: pointer;
+}
+#p-fill {
+  height: 100%; width: 0%;
+  background: #fff; border-radius: inherit;
+}
+#p-btns { display: flex; gap: 4px; flex: none; }
+#p-btns button {
+  display: inline-grid; place-items: center;
+  width: 34px; height: 34px; border-radius: 50%;
+  color: rgba(255,255,255,0.75);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+#p-btns button:hover { background: rgba(255,255,255,0.12); color: #fff; }
+#p-toggle {
+  background: rgba(255,255,255,0.14); color: #fff !important;
+}
+#p-toggle:hover { background: rgba(255,255,255,0.22) !important; }
