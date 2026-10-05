@@ -31,7 +31,7 @@ const CACHE = new Map();
 function preload(dir, urlBase) {
   let total = 0;
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name.startsWith(".")) continue;
+    if (entry.name.startsWith(".") && entry.name !== ".well-known") continue;
     if (entry.isDirectory()) {
       if (SKIP_DIRS.has(entry.name)) continue;
       total += preload(path.join(dir, entry.name), urlBase + "/" + entry.name);
