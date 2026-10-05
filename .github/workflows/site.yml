@@ -1,0 +1,86 @@
+name: site
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+env:
+  DOMAIN: zpt0.404.mn
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Look over everything
+        run: |
+          severe=0
+          node --check js/config.js || { echo "SEVERE: config.js broken"; severe=1; }
+          node --check js/main.js || { echo "SEVERE: main.js broken"; severe=1; }
+          for f in js/modules/*.js; do node --check "$f" || { echo "SEVERE: $f broken"; severe=1; }; done
+          node --check server.js || { echo "SEVERE: server.js broken"; severe=1; }
+          for r in $(grep -o '\./[a-z]*/[^"]*' index.html | sort -u); do
+            p="${r#./}"; p="${p%%\?*}"
+            [ -e "$p" ] || { echo "SEVERE: missing $r"; severe=1; }
+          done
+          n=$(grep -rho '?v=[0-9]*' index.html js/ | sort -u | wc -l)
+          [ "$n" -eq 1 ] && echo "version OK" || echo "WARN: mixed ?v= versions (stale cache possible)"
+          [ "$severe" -eq 0 ] && echo "check OK"
+
+  test:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Smoke + budgets
+        run: |
+          severe=0
+          node server.js 8123 &
+          srv=$!
+          sleep 3
+          curl -sf http://127.0.0.1:8123/ -o /dev/null || { echo "SEVERE: index down"; severe=1; }
+          curl -sf "http://127.0.0.1:8123/assets/bg-poster.jpg" -o /dev/null || { echo "SEVERE: poster down"; severe=1; }
+          curl -sf http://127.0.0.1:8123/health | grep -q ok || { echo "SEVERE: health down"; severe=1; }
+          kill $srv
+          bg=$(stat -c%s assets/bg.mp4)
+          [ "$bg" -gt 26214400 ] && echo "WARN: bg.mp4 over 25MB Cloudflare limit"
+          total=$(du -sb . | cut -f1)
+          [ "$total" -gt 104857600 ] && echo "WARN: repo over 100MB, deploys get slow"
+          [ "$severe" -eq 0 ] && echo "tests OK"
+
+  build:
+    needs: [check, test]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: domain files
+        run: |
+          echo "$DOMAIN" > CNAME
+          printf 'User-agent: *\nAllow: /\nSitemap: https://%s/sitemap.xml\n' "$DOMAIN" > robots.txt
+          printf '%s\n' '<?xml version="1.0" encoding="UTF-8"?>' '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' "<url><loc>https://$DOMAIN/</loc><changefreq>weekly</changefreq></url>" '</urlset>' > sitemap.xml
+          sed -i 's|<meta property="og:image" content="./assets/bg-poster.jpg" />|<meta property="og:image" content="https://'"$DOMAIN"'/assets/bg-poster.jpg" />|' index.html
+
+      - name: cache-bust versions
+        if: github.event_name == 'push'
+        run: |
+          sed -i -E 's/\?v=[0-9]+/?v=${{ github.run_number }}/g' index.html js/main.js js/config.js js/modules/*.js
+
+      - name: commit back
+        run: |
+          git config user.name "bio-bot"
+          git config user.email "bio-bot@users.noreply.github.com"
+          git add CNAME robots.txt sitemap.xml index.html js/
+          git diff --cached --quiet && echo "nothing to do" || { git commit -m "chore: production files [skip ci]"; git push; }
