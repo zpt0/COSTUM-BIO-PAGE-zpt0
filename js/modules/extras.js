@@ -66,7 +66,6 @@ export async function initViews() {
   animateCount(num, base + 1);
   lazyUp();
 }
-}
 
 function viewEndpoint() {
   const w = PROFILE.views && PROFILE.views.workspace;
