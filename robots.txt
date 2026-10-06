@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://zpt0.404.mn/sitemap.xml
