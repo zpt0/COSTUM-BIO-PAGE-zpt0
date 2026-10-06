@@ -1,4 +1,4 @@
-import { PROFILE } from "../config.js?v=12";
+import { PROFILE } from "../config.js?v=13";
 
 let video = null;
 let readyPromise = Promise.resolve();

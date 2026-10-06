@@ -1,4 +1,4 @@
-import { PROFILE } from "../config.js?v=12";
+import { PROFILE } from "../config.js?v=13";
 
 export function applyTheme() {
   const r = document.documentElement.style;
