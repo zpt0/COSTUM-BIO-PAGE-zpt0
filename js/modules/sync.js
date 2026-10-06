@@ -1,4 +1,4 @@
-import { bgVideo } from "./background.js?v=4";
+import { bgVideo } from "./background.js?v=6";
 
 let timer = null;
 

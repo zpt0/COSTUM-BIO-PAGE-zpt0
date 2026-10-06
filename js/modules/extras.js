@@ -1,4 +1,4 @@
-import { PROFILE } from "../config.js?v=4";
+import { PROFILE } from "../config.js?v=6";
 
 export function initEnter(onEnter) {
   const el = document.getElementById("enter");
