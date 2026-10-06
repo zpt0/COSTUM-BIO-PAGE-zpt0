@@ -1,18 +1,18 @@
-import { PROFILE } from "./config.js?v=17";
-import { applyTheme } from "./modules/theme.js?v=17";
+import { PROFILE } from "./config.js?v=18";
+import { applyTheme } from "./modules/theme.js?v=18";
 import {
   initBackground,
   backgroundReady,
   startBackground,
   restartBackground,
-} from "./modules/background.js?v=17";
-import { initSocials } from "./modules/socials.js?v=17";
-import { initPlayer, audioReady, startAudio, restartAudio } from "./modules/player.js?v=17";
-import { initSync } from "./modules/sync.js?v=17";
-import { initFx } from "./modules/fx.js?v=17";
-import { initEnter, initTitle, initViews, initTilt } from "./modules/extras.js?v=17";
-import { initTypewriter } from "./modules/typewriter.js?v=17";
-import { initProtect } from "./modules/protect.js?v=17";
+} from "./modules/background.js?v=18";
+import { initSocials } from "./modules/socials.js?v=18";
+import { initPlayer, audioReady, startAudio, restartAudio } from "./modules/player.js?v=18";
+import { initSync } from "./modules/sync.js?v=18";
+import { initFx } from "./modules/fx.js?v=18";
+import { initEnter, initTitle, initViews, initTilt } from "./modules/extras.js?v=18";
+import { initTypewriter } from "./modules/typewriter.js?v=18";
+import { initProtect } from "./modules/protect.js?v=18";
 
 applyTheme();
 initBackground();
