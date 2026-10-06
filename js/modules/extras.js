@@ -58,25 +58,37 @@ export async function initViews() {
   const box = document.getElementById("views");
   const num = document.getElementById("views-num");
   box.hidden = false;
-  let v = null;
+  let base = null;
   try {
-    v = await globalViews();
+    base = await globalGet();
   } catch {}
-  if (v === null) v = localViews();
-  animateCount(num, v);
+  if (base === null) {
+    num.textContent = viewFallback();
+    lazyUp();
+    return;
+  }
+  animateCount(num, base + 1);
+  lazyUp();
 }
 
-async function globalViews() {
+function viewEndpoint() {
   const w = PROFILE.views && PROFILE.views.workspace;
   if (!w) return null;
   const c = (PROFILE.views && PROFILE.views.counter) || "views";
+  return "https://api.counterapi.dev/v2/" + encodeURIComponent(w) + "/" + encodeURIComponent(c);
+}
+
+function viewFallback() {
+  return PROFILE.views && typeof PROFILE.views.fallbackStart === "number" ? PROFILE.views.fallbackStart : 0;
+}
+
+async function globalGet() {
+  const url = viewEndpoint();
+  if (!url) return null;
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), 6000);
   try {
-    const r = await fetch(
-      "https://api.counterapi.dev/v2/" + encodeURIComponent(w) + "/" + encodeURIComponent(c) + "/up",
-      { signal: ctrl.signal, cache: "no-store" }
-    );
+    const r = await fetch(url, { signal: ctrl.signal, cache: "no-store" });
     if (!r.ok) return null;
     const j = await r.json();
     const n = j && j.data && j.data.up_count;
@@ -88,21 +100,12 @@ async function globalViews() {
   }
 }
 
-function localViews() {
-  const k = "bio_views_" + PROFILE.username;
-  let v;
-  try {
-    v = parseInt(localStorage.getItem(k) || "", 10);
-  } catch {
-    v = NaN;
-  }
-  const start = PROFILE.views && typeof PROFILE.views.fallbackStart === "number" ? PROFILE.views.fallbackStart : 0;
-  if (Number.isNaN(v)) v = start;
-  else v += 1;
-  try {
-    localStorage.setItem(k, String(v));
-  } catch {}
-  return v;
+function lazyUp() {
+  if (!viewEndpoint()) return;
+  setTimeout(() => {
+    if (document.hidden) return;
+    fetch(viewEndpoint() + "/up", { cache: "no-store", keepalive: true }).catch(() => {});
+  }, 8000);
 }
 
 function animateCount(num, v) {
