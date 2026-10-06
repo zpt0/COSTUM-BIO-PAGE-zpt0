@@ -69,8 +69,11 @@ body.entered #stage { opacity: 1; transform: none; }
   opacity: 0.9;
 }
 @media (max-width: 520px) {
-  #stage { padding-top: 12vh; }
+  #stage { padding-top: 6vh; width: min(var(--card-width), calc(100vw - 20px)); }
+  #volume { padding: 6px 8px; }
   #volume input { width: 64px; }
+  #volume svg { width: 16px; height: 16px; }
+  #views { font-size: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   #stage { transition: none; }

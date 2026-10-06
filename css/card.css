@@ -1,5 +1,6 @@
 #card {
   width: 100%;
+  max-width: 100%;
   background: var(--card);
   backdrop-filter: blur(var(--blur));
   -webkit-backdrop-filter: blur(var(--blur));
@@ -59,3 +60,19 @@
 }
 #socials svg { width: 24px; height: 24px; display: block; }
 #socials img { width: 24px; height: 24px; object-fit: contain; border-radius: 6px; }
+@media (max-width: 520px) {
+  #card { padding: 26px 12px; border-radius: 16px; }
+  #avatar { width: 96px; height: 96px; margin-bottom: 10px; }
+  #name { font-size: 30px; }
+  #bio { font-size: 16px; }
+  #location { font-size: 13px; }
+  #socials { gap: 8px; margin-top: 18px; }
+  #socials a { width: 46px; height: 46px; border-radius: 12px; }
+  #socials svg, #socials img { width: 22px; height: 22px; }
+  #player { margin-top: 18px; }
+}
+@media (max-width: 360px) {
+  #name { font-size: 26px; }
+  #bio { font-size: 15px; }
+  #socials a { width: 42px; height: 42px; }
+}

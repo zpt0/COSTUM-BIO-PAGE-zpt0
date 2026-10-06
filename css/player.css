@@ -39,3 +39,9 @@
   background: rgba(255,255,255,0.14); color: #fff !important;
 }
 #p-toggle:hover { background: rgba(255,255,255,0.22) !important; }
+@media (max-width: 520px) {
+  #player { padding: 8px 10px; gap: 10px; }
+  #p-cover { width: 40px; height: 40px; border-radius: 8px; }
+  #p-title { font-size: 12.5px; }
+  #p-btns button { width: 30px; height: 30px; }
+}
