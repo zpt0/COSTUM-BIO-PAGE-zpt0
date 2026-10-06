@@ -66,7 +66,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # --- 1. Domain & Meta Files (Bleibt wie gehabt) ---
       - name: domain files
         run: |
           echo "$DOMAIN" > CNAME
@@ -74,34 +73,14 @@ jobs:
           printf '%s\n' '<?xml version="1.0" encoding="UTF-8"?>' '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' "<url><loc>https://$DOMAIN/</loc><changefreq>weekly</changefreq></url>" '</urlset>' > sitemap.xml
           sed -i 's|<meta property="og:image" content="./assets/bg-poster.jpg" />|<meta property="og:image" content="https://'"$DOMAIN"'/assets/bg-poster.jpg" />|' index.html
 
-      # --- 2. Asset Version Patching (Der neue, harte Block) ---
-      - name: patch assets with run number
+      - name: cache-bust versions
+        if: github.event_name == 'push'
         run: |
-          VERSION=${{ github.run_number }}
-          echo "Applying version ${VERSION} across all critical files..."
-          
-          # Alle Dateien patchen! Keine Ausnahmen mehr.
-          sed -i "s|\\?v=[0-9]*|$?v=$VERSION|" index.html js/main.js js/config.js
+          sed -i -E 's/\?v=[0-9]+/?v=${{ github.run_number }}/g' index.html js/main.js js/config.js js/modules/*.js
 
-          for f in js/modules/*.js; do 
-            echo "Patching module: $f"
-            sed -i "s|\\?v=[0-9]*|$?v=$VERSION|" "$f" 
-          done
-
-      # --- 3. Commit Back (Sicherer) ---
       - name: commit back
         run: |
           git config user.name "bio-bot"
-          git config user.email "bot@users.noreply.github.com" # E-Mail angepasst
-          
-          # Wir patchen nur die Dateien, die wir im Build erstellt haben, nicht alles!
-          FILES_TO_COMMIT="CNAME robots.txt sitemap.xml index.html js/config.js js/main.js"
-          for f in $FILES_TO_COMMIT; do git add "$f"; done
-
-          if ! git diff --cached --quiet; then
-            git commit -m "chore: production files [skip ci]" 
-            # Wir pushen NICHT automatisch, sondern lassen es so, dass man sehen kann, was fehlt.
-            echo "SUCCESS: Files staged for manual review/commit push." 
-          else
-             echo "Nothing changed to commit."
-          fi
+          git config user.email "bio-bot@users.noreply.github.com"
+          git add CNAME robots.txt sitemap.xml index.html js/
+          git diff --cached --quiet && echo "nothing to do" || { git commit -m "chore: production files [skip ci]"; git push; }
