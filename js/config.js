@@ -61,7 +61,7 @@ export const PROFILE = {
   protect: true,
 
   showViews: true,
-  viewsStart: 0,
+  views: { workspace: "", counter: "views", fallbackStart: 0 },
 };
 
 export default PROFILE;

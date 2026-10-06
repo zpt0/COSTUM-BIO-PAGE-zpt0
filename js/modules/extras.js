@@ -53,11 +53,33 @@ export function initTitle() {
   })();
 }
 
-export function initViews() {
+export async function initViews() {
   if (!PROFILE.showViews) return;
   const box = document.getElementById("views");
   const num = document.getElementById("views-num");
   box.hidden = false;
+  let v = null;
+  try {
+    v = await globalViews();
+  } catch {}
+  if (v === null) v = localViews();
+  animateCount(num, v);
+}
+
+async function globalViews() {
+  const w = PROFILE.views && PROFILE.views.workspace;
+  if (!w) return null;
+  const c = (PROFILE.views && PROFILE.views.counter) || "views";
+  const r = await fetch(
+    "https://api.counterapi.dev/v2/" + encodeURIComponent(w) + "/" + encodeURIComponent(c) + "/up"
+  );
+  if (!r.ok) return null;
+  const j = await r.json();
+  const n = j && j.data && j.data.up_count;
+  return typeof n === "number" ? n : null;
+}
+
+function localViews() {
   const k = "bio_views_" + PROFILE.username;
   let v;
   try {
@@ -65,11 +87,16 @@ export function initViews() {
   } catch {
     v = NaN;
   }
-  if (Number.isNaN(v)) v = PROFILE.viewsStart;
+  const start = PROFILE.views && typeof PROFILE.views.fallbackStart === "number" ? PROFILE.views.fallbackStart : 0;
+  if (Number.isNaN(v)) v = start;
   else v += 1;
   try {
     localStorage.setItem(k, String(v));
   } catch {}
+  return v;
+}
+
+function animateCount(num, v) {
   let cur = Math.max(0, v - 8);
   num.textContent = cur;
   const iv = setInterval(() => {
