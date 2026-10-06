@@ -25,7 +25,7 @@ export function initEnter(onEnter) {
 
 export function initTitle() {
   const handle = "@" + PROFILE.username;
-  if (!PROFILE.effects.animatedTitle || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (!PROFILE.effects.animatedTitle) {
     document.title = handle;
     return;
   }
