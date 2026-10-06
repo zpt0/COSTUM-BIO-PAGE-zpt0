@@ -57,18 +57,15 @@ export async function initViews() {
   if (!PROFILE.showViews) return;
   const box = document.getElementById("views");
   const num = document.getElementById("views-num");
-  box.hidden = false;
   let base = null;
   try {
     base = await globalGet();
   } catch {}
-  if (base === null) {
-    num.textContent = viewFallback();
-    lazyUp();
-    return;
-  }
+  if (base === null) return;
+  box.hidden = false;
   animateCount(num, base + 1);
   lazyUp();
+}
 }
 
 function viewEndpoint() {
@@ -76,10 +73,6 @@ function viewEndpoint() {
   if (!w) return null;
   const c = (PROFILE.views && PROFILE.views.counter) || "views";
   return "https://api.counterapi.dev/v2/" + encodeURIComponent(w) + "/" + encodeURIComponent(c);
-}
-
-function viewFallback() {
-  return PROFILE.views && typeof PROFILE.views.fallbackStart === "number" ? PROFILE.views.fallbackStart : 0;
 }
 
 async function globalGet() {
