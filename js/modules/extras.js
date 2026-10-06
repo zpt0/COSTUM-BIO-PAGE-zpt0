@@ -70,13 +70,22 @@ async function globalViews() {
   const w = PROFILE.views && PROFILE.views.workspace;
   if (!w) return null;
   const c = (PROFILE.views && PROFILE.views.counter) || "views";
-  const r = await fetch(
-    "https://api.counterapi.dev/v2/" + encodeURIComponent(w) + "/" + encodeURIComponent(c) + "/up"
-  );
-  if (!r.ok) return null;
-  const j = await r.json();
-  const n = j && j.data && j.data.up_count;
-  return typeof n === "number" ? n : null;
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), 6000);
+  try {
+    const r = await fetch(
+      "https://api.counterapi.dev/v2/" + encodeURIComponent(w) + "/" + encodeURIComponent(c) + "/up",
+      { signal: ctrl.signal, cache: "no-store" }
+    );
+    if (!r.ok) return null;
+    const j = await r.json();
+    const n = j && j.data && j.data.up_count;
+    return typeof n === "number" ? n : null;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(t);
+  }
 }
 
 function localViews() {
