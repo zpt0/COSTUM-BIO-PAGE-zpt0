@@ -75,7 +75,7 @@ jobs:
           echo "$DOMAIN" > CNAME
           printf 'User-agent: *\nAllow: /\nSitemap: https://%s/sitemap.xml\n' "$DOMAIN" > robots.txt
           printf '%s\n' '<?xml version="1.0" encoding="UTF-8"?>' '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' "<url><loc>https://$DOMAIN/</loc><changefreq>weekly</changefreq></url>" '</urlset>' > sitemap.xml
-          sed -i 's|<meta property="og:image" content="./assets/bg-poster.jpg" />|<meta property="og:image" content="https://'"$DOMAIN"'/assets/bg-poster.jpg" />|' index.html
+          sed -i -E 's|(<meta property="og:image" content=")[^"]*(" />)|\1https://'"$DOMAIN"'/assets/bg-poster.jpg\2|' index.html
 
       - name: cache-bust versions
         if: github.event_name == 'push'
