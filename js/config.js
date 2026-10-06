@@ -61,7 +61,7 @@ export const PROFILE = {
   protect: true,
 
   showViews: true,
-  views: { workspace: "", counter: "views", fallbackStart: 0 },
+  views: { workspace: "zpt0-views-72419", counter: "zpt0-views-72419", fallbackStart: 0 },
 };
 
 export default PROFILE;
