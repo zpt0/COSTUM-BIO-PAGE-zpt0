@@ -29,24 +29,26 @@ export function initTitle() {
     document.title = handle;
     return;
   }
+  const GLYPHS = "!<>-_/[]{}=+*^?#01";
+  const PREFIX = "> ";
   const CUR = "▌";
-  const cuts = [handle.length - 1, handle.length - 2, 1].filter((c) => c >= 1 && c < handle.length);
-  let ci = 0;
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  const rnd = () => GLYPHS[(Math.random() * GLYPHS.length) | 0];
   (async function loop() {
     for (;;) {
-      for (let i = 1; i <= handle.length; i++) {
-        document.title = "> " + handle.slice(0, i) + CUR;
-        await wait(110 + Math.random() * 90);
+      const shown = handle.split("").map(rnd);
+      for (let i = 0; i < handle.length; i++) {
+        for (let f = 0; f < 4; f++) {
+          shown[i] = rnd();
+          document.title = PREFIX + shown.join("") + CUR;
+          await wait(55);
+        }
+        shown[i] = handle[i];
+        document.title = PREFIX + shown.join("") + CUR;
+        await wait(60);
       }
-      document.title = "> " + handle;
-      await wait(1800);
-      const cut = cuts.length ? cuts[ci++ % cuts.length] : 1;
-      for (let i = handle.length; i > cut; i--) {
-        document.title = "> " + handle.slice(0, i - 1) + CUR;
-        await wait(45);
-      }
-      await wait(450);
+      document.title = PREFIX + handle;
+      await wait(2200);
     }
   })();
 }
