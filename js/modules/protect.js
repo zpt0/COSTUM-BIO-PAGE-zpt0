@@ -48,16 +48,10 @@ export function initProtect() {
 
   setInterval(() => {
     if (document.hidden) return;
-    const w = Math.abs(window.outerWidth - window.innerWidth);
-    const h = Math.abs(window.outerHeight - window.innerHeight);
-    setShield(w > 170 || h > 170);
-  }, 1000);
-
-  setInterval(() => {
-    if (document.hidden) return;
     const t0 = performance.now();
     debugger;
     if (performance.now() - t0 > 120) setShield(true);
+    else if (open) setShield(false);
   }, 3000);
 
   console.log(
