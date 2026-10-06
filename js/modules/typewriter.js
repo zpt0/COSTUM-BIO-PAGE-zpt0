@@ -1,4 +1,4 @@
-import { PROFILE } from "../config.js?v=9";
+import { PROFILE } from "../config.js?v=11";
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 

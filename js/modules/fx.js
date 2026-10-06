@@ -1,4 +1,4 @@
-import { PROFILE } from "../config.js?v=9";
+import { PROFILE } from "../config.js?v=11";
 export function initFx() {
   if (PROFILE.effects.background === "none") return;
   const cv = document.getElementById("fx");

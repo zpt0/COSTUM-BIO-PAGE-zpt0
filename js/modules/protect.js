@@ -1,4 +1,4 @@
-import { PROFILE } from "../config.js?v=9";
+import { PROFILE } from "../config.js?v=11";
 
 export function initProtect() {
   if (!PROFILE.protect) return;
