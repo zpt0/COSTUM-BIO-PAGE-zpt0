@@ -1,5 +1,5 @@
-import { PROFILE } from "../config.js?v=6";
-import { iconSVG, isImageUrl } from "./icons.js?v=6";
+import { PROFILE } from "../config.js?v=8";
+import { iconSVG, isImageUrl } from "./icons.js?v=8";
 
 export function initSocials() {
   const nav = document.getElementById("socials");

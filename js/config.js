@@ -17,7 +17,7 @@ export const PROFILE = {
     {
       title: "JAXK - Redlights [Idleglance]",
       url: "./assets/song.mp3",
-      cover: "./assets/cover.webp?v=6",
+      cover: "./assets/cover.webp?v=8",
     },
   ],
   shuffleAudio: false,

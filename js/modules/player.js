@@ -1,4 +1,4 @@
-import { PROFILE } from "../config.js?v=6";
+import { PROFILE } from "../config.js?v=8";
 
 let idx = 0;
 let order = [];
