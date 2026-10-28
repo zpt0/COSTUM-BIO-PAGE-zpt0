@@ -1,19 +1,19 @@
-import { PROFILE } from "./config.js?v=41";
-import { applyTheme } from "./modules/theme.js?v=41";
+import { PROFILE } from "./config.js?v=1";
+import { applyTheme } from "./modules/theme.js?v=1";
 import {
   initBackground,
   backgroundReady,
   startBackground,
   restartBackground,
-} from "./modules/background.js?v=41";
-import { initSocials } from "./modules/socials.js?v=41";
-import { initPlayer, audioReady, startAudio, restartAudio } from "./modules/player.js?v=41";
-import { initSync } from "./modules/sync.js?v=41";
-import { initFx } from "./modules/fx.js?v=41";
-import { initEnter, initTitle, initViews, initTilt } from "./modules/extras.js?v=41";
-import { initTypewriter } from "./modules/typewriter.js?v=41";
-import { initProtect } from "./modules/protect.js?v=41";
-import { initNav } from "./modules/nav.js?v=41";
+} from "./modules/background.js?v=1";
+import { initSocials } from "./modules/socials.js?v=1";
+import { initPlayer, audioReady, startAudio, restartAudio } from "./modules/player.js?v=1";
+import { initSync } from "./modules/sync.js?v=1";
+import { initFx } from "./modules/fx.js?v=1";
+import { initEnter, initTitle, initViews, initTilt } from "./modules/extras.js?v=1";
+import { initTypewriter } from "./modules/typewriter.js?v=1";
+import { initProtect } from "./modules/protect.js?v=1";
+import { initNav } from "./modules/nav.js?v=1";
 
 applyTheme();
 initBackground();
