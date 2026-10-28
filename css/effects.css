@@ -1,0 +1,21 @@
+#name.effect-gradient {
+  background: linear-gradient(90deg, #fff, #8ab4ff, #fff);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradShift 4s linear infinite;
+}
+@keyframes gradShift { to { background-position: 200% center; } }
+#type-caret {
+  display: inline-block;
+  width: 2px; height: 1em;
+  margin-left: 2px; vertical-align: -0.15em;
+  background: currentColor;
+  animation: caretBlink 0.9s steps(1) infinite;
+}
+@keyframes caretBlink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  #enter-text, #name.effect-gradient { animation: none; }
+  #type-caret { animation: none; }
+}
