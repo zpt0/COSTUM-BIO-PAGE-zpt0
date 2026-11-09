@@ -1,0 +1,19 @@
+# Dependabot: bundle every update into as few pull requests as possible.
+# GitHub tracks version and security updates separately, so each ecosystem gets
+# one "all-*" group per update type and the open-PR limit is capped at 1.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 1
+    commit-message:
+      prefix: "chore(deps)"
+    labels:
+      - "dependencies"
+    groups:
+      all-actions:
+        patterns:
+          - "*"
