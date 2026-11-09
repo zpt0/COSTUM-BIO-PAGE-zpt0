@@ -1,5 +1,5 @@
-import { PROFILE } from "../config.js?v=9";
-import { iconSVG, isImageUrl } from "./icons.js?v=9";
+import { PROFILE } from "../config.js?v=16";
+import { iconSVG, isImageUrl } from "./icons.js?v=16";
 
 const FALLBACK_NAV = [
   { id: "start", label: "start" },
